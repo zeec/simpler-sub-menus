@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Template Access="NT Authority\Interactive,(localhost)" Description="Build SQL Table Select Template" xmlns="http://simplersystems.com/suite" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://simplersystems.com/suite ..\..\Template.xsd">
+  <Xml>
+    <Check Identifier="DataSource" Required="Y" />
+    <Check Identifier="Name" Required="Y" />
+    <Element Name="Template">
+      <Attribute Name="Access" Value="" />
+      <Attribute Name="Description" />
+      <Attribute Name="xmlns" Value="http://simplersystems.com/suite" />
+      <Element Name="Select">
+        <Element Name="Query">
+          <Element Name="SqlTable">
+            <Attribute Name="DataSource" Value="{DataSource}" />
+            <Attribute Name="Schema" Value="{Schema}" When="{Schema != null}" />
+            <Attribute Name="Name" Value="{Name}" />
+          </Element>
+        </Element>
+      </Element>
+    </Element>
+  </Xml>
+</Template>
+  

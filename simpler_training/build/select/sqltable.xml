@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Template Access="NT Authority\Interactive,(localhost)" Description="Build SQL Table Select Template" xmlns="http://simplersystems.com/suite" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://simplersystems.com/suite ..\..\Template.xsd">
+  <Present>
+    <Script.Url Identifier="SqlTableUrl" BaseUrl="/build/select/sqltabletemplate.xml">
+      <Parameter Name="DataSource" />
+      <Parameter Name="Schema" />
+      <Parameter Name="Name" />
+    </Script.Url>
+    <Frame Title="Build" />
+    <Form Title="Build SQL Table Select Template">
+      <TextBox Identifier="DataSource" Label="Data Source:" />
+      <TextBox Identifier="Schema" Label="Schema:" />
+      <TextBox Identifier="Name" Label="Name:" />
+      <Button.Navigate Identifier="Build" Label="Build" Url="{SqlTableUrl}" />
+    </Form>
+  </Present>
+</Template>

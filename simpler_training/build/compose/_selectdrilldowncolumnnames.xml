@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Template Access="NT Authority\Interactive,(localhost)" Description="Select Drilldown Column Names" xmlns="http://simplersystems.com/suite" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://simplersystems.com/suite ..\..\Template.xsd">
+  <Select>
+    <Query>
+      <Script>
+        ColumnNames {Select.GetSchemaColumnNames(SelectUrl)}
+        Type {Select.GetSchemaColumnAttribute(SelectUrl, Name, 'Type')}    
+        Group {Select.GetSchemaColumnAttribute(SelectUrl, Name, 'Group', {'Y' when Type = 'String', else 'N'})}    
+        Total {Select.GetSchemaColumnAttribute(SelectUrl, Name, 'Total', {'Y' when Type = 'Number', else 'N'})}    
+      </Script>
+      <Table DefaultSelect="N" RowFilter="{Group = 'Y' and Total = 'N'}">
+        <Column Name="Name" Values="{ColumnNames}" Select="Y" />
+        <Column Name="Type" Value="{Type}" />
+        <Column Name="Group" Value="{Group}" />
+        <Column Name="Total" Value="{Total}" />
+      </Table>
+    </Query>
+  </Select>
+</Template>

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Template Access="AllUsers" Url="(/[\S^/]+)*/compose.(\w)*" Priority="-1" Description="Dynamic Compose" xmlns="http://simplersystems.com/suite" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://simplersystems.com/suite Template.xsd">
+  <Dynamic Url="{DynamicUrl}" Cacheable="Y">
+    <Script Evaluate="Y">
+      SelectUrl {Url.ChangeName(Url.This, 'select.xml')}
+    </Script>
+    <Script.Url Identifier="DynamicUrl" BaseUrl="{Select.GetSchemaAttribute(SelectUrl, 'BuildComposeUrl', {'/build/compose/', Select.GetSchemaAttribute(SelectUrl, 'BuildType', 'basic'), 'tabletemplate.xml'})}">
+      <Parameter Name="SelectUrl" />
+    </Script.Url>
+  </Dynamic>
+</Template>

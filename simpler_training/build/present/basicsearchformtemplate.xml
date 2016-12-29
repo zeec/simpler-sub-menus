@@ -1,0 +1,59 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Template Access="NT Authority\Interactive,(localhost)" Description="Build Basic Search Form Present Template" xmlns="http://simplersystems.com/suite" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://simplersystems.com/suite ..\..\Template.xsd">
+  <Xml>
+    <Script>
+      ColumnNames {Select.GetSchemaColumnNames(SelectUrl)}
+      Title {Select.GetSchemaColumnAttribute(SelectUrl, ColumnName, 'Title', String.FormatIdentifier(ColumnName))}
+      Description {Select.GetSchemaColumnAttribute(SelectUrl, ColumnName, 'Description')}
+      Display {Select.GetSchemaColumnAttribute(SelectUrl, ColumnName, 'Display')}
+      Assist {Select.GetSchemaColumnAttribute(SelectUrl, ColumnName, 'Assist')}
+      AssistUrl {Select.GetSchemaColumnAttribute(SelectUrl, ColumnName, 'AssistUrl', Url.Build(Url.ChangeExtension(SelectUrl, 'json'), {'Select', 'Group', 'RowLimit'}, ColumnName, 'Y', '100'))}
+      AssistParameters {Select.GetSchemaColumnAttribute(SelectUrl, ColumnName, 'AssistParameters')}
+    </Script>
+    <Element Name="Template">
+      <Attribute Name="Access" Value="{Select.GetSchemaAttribute(SelectUrl, 'Access')}" />
+      <Attribute Name="Description" />
+      <Attribute Name="xmlns" Value="http://simplersystems.com/suite" />
+      <Attribute Name="xmlns:xsi" Value="http://www.w3.org/2001/XMLSchema-instance" />
+      <Attribute Name="xsi:schemaLocation" Value="http://simplersystems.com/suite Template.xsd" />
+      <Element Name="Present">
+        <Element Name="Script.Url">
+          <Attribute Name="id" Value="ComposeUrl" />
+          <Attribute Name="Identifier" Value="ComposeUrl" />
+          <Attribute Name="BaseUrl" Value="{'{Url.Path}'}" />
+          <Attribute Name="Name" Value="compose.html" />
+          <Attribute Name="Extension" Value="{'{Coalesce(_Extension, ''.html'')}'}" />
+          <Elements ItemIdentifier="ColumnName" Items="{ColumnNames}">
+            <Element Name="Parameter">
+              <Attribute Name="Name" Value="{ColumnName}" />
+            </Element>
+          </Elements>
+        </Element>
+        <Element Name="Frame">
+          <Attribute Name="Extensions" Value="nul" />
+        </Element>
+        <Element Name="Form">
+          <Attribute Name="Title" Value="{Select.GetSchemaAttribute(SelectUrl, 'Title')}" />
+          <Attribute Name="NavigateUrl" Value="{'{ComposeUrl}'}" />
+          <Attribute Name="AutoInput" Value="Y" />
+          <Element Name="Context">
+            <Attribute Name="id" Value="_Extension" />
+            <Attribute Name="Identifier" Value="_Extension" />
+          </Element>
+          <Elements ItemIdentifier="ColumnName" Items="{ColumnNames}">
+            <Element Name="TextBox" When="{Display != 'N'}">
+              <Attribute Name="id" Value="{ColumnName}" />
+              <Attribute Name="Identifier" Value="{ColumnName}" />
+              <Attribute Name="Description" Value="{String.Replace(Title, '|', ' ')}" />
+              <Attribute Name="Tooltip" Value="{Description}" When="{Description != null}" />
+              <Attribute Name="Assist" Value="{Assist}" />
+              <Attribute Name="AssistUrl" Value="{AssistUrl}" />
+              <Attribute Name="AssistParameters" Value="{AssistParameters}" />
+            </Element>
+          </Elements>
+        </Element>
+      </Element>
+    </Element>
+  </Xml>
+</Template>
+  

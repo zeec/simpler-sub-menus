@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Template Access="NT Authority\Interactive,(localhost)" Description="Select Columns" xmlns="http://simplersystems.com/suite" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://simplersystems.com/suite ..\..\Template.xsd">
+  <Select>
+    <Query>
+      <Table AutoSelect="Y" AutoFilter="Y">
+        <Column Name="Name" Values="{Names}" />
+        <Column Name="Type" Values="{Types}" />
+      </Table>
+    </Query>
+  </Select>
+</Template>

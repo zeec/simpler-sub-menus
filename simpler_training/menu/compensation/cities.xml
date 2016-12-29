@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Template Access="NT Authority\Interactive,(localhost)" Description="Start" xmlns="http://simplersystems.com/suite" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://simplersystems.com/suite Template.xsd">
+  <Present>
+    <Script>
+      CurrentVersion {['/version.sys']}
+    </Script>
+    <Frame Title="Cities" />
+    <Html>
+      <![CDATA[
+      <p style="margin-bottom: 1ex">Installed version: ~{CurrentVersion}~</p>
+      <p style="margin-bottom: 3ex">Root file path: ~{System.RootFilePath()}~</p>
+            ~{String.ProperCase(String.Replace(List.ItemAt(List.Parse(Select.Filter(Settings.SubTabs,{'*',List.ItemAt(List.Parse(Settings.Tabs,','),0),'*'}as String,0),','),0),'\',','))}~
+
+    ]]>
+    </Html>
+    
+  </Present>
+</Template>

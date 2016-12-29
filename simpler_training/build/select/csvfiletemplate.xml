@@ -1,0 +1,40 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Template Access="NT Authority\Interactive,(localhost)" Description="Build CSV File Select Template" xmlns="http://simplersystems.com/suite" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://simplersystems.com/suite ..\..\Template.xsd">
+  <Xml>
+    <Check Identifier="Path" Required="Y" />
+    <Check Identifier="FileName" Required="Y" Description="File Name" />
+    <Element Name="Template">
+      <Attribute Name="Access" Value="AllUsers" />
+      <Attribute Name="Description" />
+      <Attribute Name="xmlns" Value="http://simplersystems.com/suite" />
+      <Attribute Name="xmlns:xsi" Value="http://www.w3.org/2001/XMLSchema-instance" />
+      <Attribute Name="xsi:schemaLocation" Value="http://simplersystems.com/suite Template.xsd" />
+      <Element Name="Select">
+        <Element Name="Query">
+          <Element Name="CsvFile">
+            <Attribute Name="Path" Value="{Path}" />
+            <Attribute Name="FileName" Value="{FileName}" />
+            <Attribute Name="FirstRowContainsFieldNames" Value="Y" />
+            <Attribute Name="AutoFilter" Value="Y" />
+            <Attribute Name="AutoSelect" Value="Y" />
+            <Attribute Name="AutoSort" Value="Y" />
+            <Attribute Name="SampleOnly" Value="{'{SampleOnly}'}" />
+            <Elements ItemIdentifier="ColumnName" Items="{Select.GetSchemaColumnNames(Xml.DynamicTemplate(_CSVFileTemplate))}">
+              <Script.Url Identifier="_CSVFileTemplate" BaseUrl="/build/select/_csvfiletemplate.xml">
+                <Parameter Name="Path" />
+                <Parameter Name="FileName" />
+              </Script.Url>
+              <Element Name="Column">
+                <Attribute Name="Name" Value="{ColumnName}" />
+              </Element>
+            </Elements>
+          </Element>
+        </Element>
+        <Element Name="Schema">
+          <Attribute Name="Title" Value="{FileName}" />
+        </Element>
+      </Element>
+    </Element>
+  </Xml>
+</Template>
+  

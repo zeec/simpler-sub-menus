@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Template Access="NT Authority\Interactive,(localhost)" Description="Start" xmlns="http://simplersystems.com/suite" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://simplersystems.com/suite Template.xsd">
+  <Present>
+    <Script>
+      CurrentVersion {['/version.sys']}
+    </Script>
+    <Frame Title="Chart Of Accounts" />
+    <Html>
+      <![CDATA[
+      <p style="margin-bottom: 1ex">Installed version: ~{CurrentVersion}~</p>
+      <p style="margin-bottom: 3ex">Root file path: ~{System.RootFilePath()}~</p>
+    ]]>
+    </Html>
+    
+  </Present>
+</Template>

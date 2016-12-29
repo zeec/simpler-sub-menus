@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Template Access="AllUsers" Description="Select Directory" Cacheable="Y" xmlns="http://simplersystems.com/suite" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://simplersystems.com/suite ../../Template.xsd">
+  <Select >
+    <Query >
+      <Directory Path="C:\Simpler\simpler_training\menu"  IncludeSubdirectories="Y" RowFilter="{String.Contains(Path,'_directory')!=true}" Group="Y" AutoSelect="Y" AutoFilter="Y" AutoSort="Y" >
+        <Column Name="Path" />
+        <Column Name="FileName"/>
+
+      </Directory>
+    </Query>
+  </Select>
+</Template>
+  

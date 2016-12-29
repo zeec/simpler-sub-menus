@@ -1,0 +1,437 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Template Access="AllUsers" Url="/custom-frame.shtml" Cacheable="Y" Description="Custom Frame" xmlns="http://simplersystems.com/suite" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://simplersystems.com/suite Template.xsd">
+  <Present FrameStyle="Custom" >
+    <Script.Url Identifier="DirectoryUrl" BaseUrl="/menu/_directory/select.xml">
+      <Parameter Name="Path"  />
+      <Parameter Name="Select" Value="FileName"/>
+    </Script.Url>
+    <Script>
+      Menus {Url.Execute(Url.Build(DirectoryUrl,'Path','*\menu'))}
+      MenuTabs {List.Parse(String.Replace(%Menus,'.xml',''))}
+      TabName {List.ItemAt(MenuTabs,TabIndex)}
+      TabPath {'/menu/', TabName}
+
+      SubMenus {Url.Execute(Url.Build(DirectoryUrl,'Path',{'*\menu\',List.ItemAt(MenuTabs,TabIndex)}as String))}
+      SubMenu0 {String.Replace(List.ItemAt(SubMenus,0),'.xml','.html')}
+      SubMenu1 {String.Replace(List.ItemAt(SubMenus,1),'.xml','.html')}
+      SubMenu2 {String.Replace(List.ItemAt(SubMenus,2),'.xml','.html')}
+      SubMenu3 {String.Replace(List.ItemAt(SubMenus,3),'.xml','.html')}
+      SubMenu4 {String.Replace(List.ItemAt(SubMenus,4),'.xml','.html')}
+
+      SubMenuPath0 {Url.AddRootPath(TabPath, '/', SubMenu0)}
+      SubMenuPath1 {Url.AddRootPath(TabPath, '/', SubMenu1)}
+      SubMenuPath2 {Url.AddRootPath(TabPath, '/', SubMenu2)}
+      SubMenuPath3 {Url.AddRootPath(TabPath, '/', SubMenu3)}
+      SubMenuPath4 {Url.AddRootPath(TabPath, '/', SubMenu4)}
+
+      SubMenuTitle0 {String.ProperCase(String.FormatIdentifier(String.Replace(SubMenu0,'.html','')))}
+      SubMenuTitle1 {String.ProperCase(String.FormatIdentifier(String.Replace(SubMenu1,'.html','')))}
+      SubMenuTitle2 {String.ProperCase(String.FormatIdentifier(String.Replace(SubMenu2,'.html','')))}
+      SubMenuTitle3 {String.ProperCase(String.FormatIdentifier(String.Replace(SubMenu3,'.html','')))}
+      SubMenuTitle4 {String.ProperCase(String.FormatIdentifier(String.Replace(SubMenu4,'.html','')))}
+      SubMenuTitles {SubMenuTitle0, SubMenuTitle1, SubMenuTitle2, SubMenuTitle3, SubMenuTitle4}
+
+      SubMenuDisplay0 {'display:none;opacity:0;' when SubMenu0=null}
+      SubMenuDisplay1 {'display:none;opacity:0;' when SubMenu1=null}
+      SubMenuDisplay2 {'display:none;opacity:0;' when SubMenu2=null}
+      SubMenuDisplay3 {'display:none;opacity:0;' when SubMenu3=null}
+      SubMenuDisplay4 {'display:none;opacity:0;' when SubMenu4=null}
+
+      SubMenuActive0 {'color:#46a448!important;' when Title=SubMenuTitle0}
+      SubMenuActive1 {'color:#46a448!important;' when Title=SubMenuTitle1}
+      SubMenuActive2 {'color:#46a448!important;' when Title=SubMenuTitle2}
+      SubMenuActive3 {'color:#46a448!important;' when Title=SubMenuTitle3}
+      SubMenuActive4 {'color:#46a448!important;' when Title=SubMenuTitle4}
+
+      CurrentMenuItem {'current-menu-item' when TabName = Title or List.Contains(SubMenuTitles,Title)}
+
+      ListScript {
+      '&lt;li  class=&quot;', CurrentMenuItem, '&quot;>
+        &lt;a href=&quot;', Url.AddRootPath(TabPath), '.html', '&quot;>', String.ProperCase(String.FormatIdentifier(TabName)), '&lt;/a>
+        &lt;ul>
+          &lt;li class=&quot;', CurrentMenuItem, '&quot; style=&quot;', SubMenuDisplay0, '&quot;>
+            &lt;a href=&quot;', SubMenuPath0, '&quot; style=&quot;', SubMenuActive0, '&quot;>', SubMenuTitle0, '&lt;/a>
+          &lt;/li>
+          &lt;li class=&quot;', CurrentMenuItem, '&quot; style=&quot;', SubMenuDisplay1, '&quot;>
+            &lt;a href=&quot;', SubMenuPath1, '&quot; style=&quot;', SubMenuActive1, '&quot;>', SubMenuTitle1, '&lt;/a>
+          &lt;/li>
+            &lt;li class=&quot;', CurrentMenuItem, '&quot; style=&quot;', SubMenuDisplay2, '&quot;>
+            &lt;a href=&quot;', SubMenuPath2, '&quot; style=&quot;', SubMenuActive2, '&quot;>', SubMenuTitle2, '&lt;/a>
+          &lt;/li>
+          &lt;li class=&quot;', CurrentMenuItem, '&quot; style=&quot;', SubMenuDisplay3, '&quot;>
+            &lt;a href=&quot;', SubMenuPath3, '&quot; style=&quot;', SubMenuActive3, '&quot;>', SubMenuTitle3, '&lt;/a>
+          &lt;/li>
+          &lt;li class=&quot;', CurrentMenuItem, '&quot; style=&quot;', SubMenuDisplay4, '&quot;>
+            &lt;a href=&quot;', SubMenuPath4, '&quot; style=&quot;', SubMenuActive4, '&quot;>', SubMenuTitle4, '&lt;/a>
+          &lt;/li>
+        &lt;/ul>
+      &lt;/li>'
+      }
+    </Script>
+    <Html>
+      <Script.Url Identifier="FrameUrl" BaseUrl="{Url.GetQueryString(Url.This)}" >
+        <Parameter Name="Title"  Value="{Select.GetSchemaColumnAttribute(SelectUrl,'Title')}"/>
+        <Parameter Name="TableUrl" />
+        <Parameter Name="Url.This"/>
+      </Script.Url>
+    
+
+     
+
+      <![CDATA[
+<head>
+
+<style type="text/css">
+  .dock-right, .anchor-custom {
+	position: absolute;
+	right: 0;	
+}
+.anchor-custom {
+	font-size: 85%;
+	line-height: 18px;
+	padding-right: 20em;
+}
+.anchor-custom a {
+	color:#000;
+text-decoration: none;
+}
+.anchor-custom a:hover {
+	text-decoration: underline;
+}
+
+.anchor-right {
+	position: absolute;
+	right: 0;
+	
+}
+
+ div.customheader {
+    background: ~{Settings.FrameColor}~; /* Old browsers */
+  background: -moz-linear-gradient(left,  ~{Settings.FrameColor}~ 0%, ~{Settings.FrameColor}~ 80%, #fff 90%, #fff 88%); /* FF3.6+ */
+  background: -webkit-gradient(linear, left top, right top, color-stop(0%,~{Settings.FrameColor}~), color-stop(80%,~{Settings.FrameColor}~), color-stop(90%,#fff), color-stop(88%,#ffffff)); /* Chrome,Safari4+ */
+  background: -webkit-linear-gradient(left,  ~{Settings.FrameColor}~ 0%,~{Settings.FrameColor}~ 80%,fff 90%,#ffffff 88%); /* Chrome10+,Safari5.1+ */
+  background: -o-linear-gradient(left,  ~{Settings.FrameColor}~ 0%,~{Settings.FrameColor}~ 80%,#fff 90%,#ffffff 88%); /* Opera 11.10+ */
+  background: -ms-linear-gradient(left,  ~{Settings.FrameColor}~ 0%,~{Settings.FrameColor}~ 80%,#fff 90%,#ffffff 88%); /* IE10+ */
+  background: linear-gradient(left,  ~{Settings.FrameColor}~ 0%,~{Settings.FrameColor}~ 80%,#fff 90%,#ffffff 88%); /* W3C */
+
+filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='~{Settings.FrameColor}~', endColorstr='#ffffff',GradientType=1 );
+        }
+ div.customheader h1 {
+        font-weight:Bold;
+        font-size:115%; 
+        color: ~{Settings.HeadingColor}~;
+        white-space:nowrap;
+        font-family: Calibri,Candara,Segoe,"Segoe UI",Optima,Arial,sans-serif;
+        }
+ div.customheader h2 {
+        font-weight:Bold;
+        font-size:100%;
+        color: ~{Settings.HeadingColor}~;
+        white-space:nowrap;
+        /*font-family: Calibri,Candara,Segoe,"Segoe UI",Optima,Arial,sans-serif;*/
+        }
+  #tabs {
+     
+             font-family: Calibri,Candara,Segoe,"Segoe UI",Optima,Arial,sans-serif;
+font-size: 11pt; 
+      
+      }
+
+<!--Submenu-->
+#primary_nav_wrap
+{
+	
+}
+
+#primary_nav_wrap ul
+{
+	list-style:none;
+	position:relative;
+	float:left;
+	margin:0;
+	height:20px;	
+  
+}
+
+#primary_nav_wrap ul a
+{
+	display:block;
+	color:#333;
+	text-decoration:none;
+	font-weight:700;
+	font-size:12px;
+	line-height:20px;
+  font-family: Calibri,Candara,Segoe,"Segoe UI",Optima,Arial,sans-serif;
+  padding:0px 5px 0px 5px;
+  margin-right:1.5px;
+  border-top:1px solid #ccc;
+  border-left:1px solid #ccc;
+  border-right:1px solid #ccc;
+  border-bottom:1px solid #eee;
+  border-radius:5px 5px 0 0;
+
+}
+
+#primary_nav_wrap ul ul li a
+{
+	display:block;
+	color:#333;
+	text-decoration:none;
+	font-weight:700;
+	font-size:12px;
+	line-height:20px;
+	padding:0px 10px 0px 10px;
+  font-family: Calibri,Candara,Segoe,"Segoe UI",Optima,Arial,sans-serif; 
+}
+#primary_nav_wrap ul li
+{
+	position:relative;
+	float:left;
+	padding:0;
+
+}
+
+#primary_nav_wrap ul li.current-menu-item
+{
+        border-bottom:1px solid #eee;
+        text-decoration: none; 
+
+}
+
+#primary_nav_wrap ul li.current-menu-item a
+{
+		background-color:#eee;     
+    font-weight:bold;
+    color: #46a448;
+    text-decoration: none; 
+}
+
+#primary_nav_wrap ul li:hover
+{
+	background:transparent;
+  
+}
+
+#primary_nav_wrap ul li a:hover
+{
+	background:#ccc;
+  color:#46a448!important;
+}
+
+
+#primary_nav_wrap ul ul li a
+{
+	background:#fff;
+  color:#000!important;
+
+}
+
+
+#primary_nav_wrap ul ul
+{
+	display:none;
+	position:absolute;
+	top:100%;
+	left:0;
+	background:#ccc;
+	padding:0;		
+  
+}
+
+#primary_nav_wrap ul ul li
+{
+	float:none;
+	width:150px;
+	z-index:99;
+
+
+
+
+}
+
+#primary_nav_wrap ul ul a
+{
+	line-height:100%;
+	padding:5px 15px;
+  border:1px solid #ccc;
+  border-radius:0;
+  
+}
+
+
+#primary_nav_wrap ul li:hover > ul
+{
+	display:block;
+	border:0;
+}
+
+
+</style>
+</head>
+
+  <!--Header banner-->
+<div class="customheader" >
+     <table width="100%" >
+     <tr>
+         <td width="10%">
+          <a href="/home.html" style="position: relative; left: 5"><img src="~{Url.AddRootPath({Settings.LogoUrl})}~" alt="LOGO" width="~{Settings.LogoWidth}~" height="~{Settings.LogoHeight}~" style="padding-right:5px;"></a>
+         </td>
+         <td>
+         <table>
+         <tr>
+		   <td width="10%"><h2>~{Settings.ClientName}~ - </h2></td>
+
+          <td width="20%">
+              <h2>&nbsp; ~{Settings.ApplicationTitle}~</h2>
+           </td>
+           <td>&nbsp;</td>
+           <td width="60%">
+            <h1 style="">~{Title}~</h1>
+          </td>
+          </tr>
+           <tr>
+        
+          <td>&nbsp;</td>
+        
+         </tr>
+         </table>
+		
+             ]]>
+
+        </Html>
+    
+        <Html Access="AuthenticatedUsers" When="{Settings.TabularMenu ='Y'}" >
+          <![CDATA[
+           
+       <nav id="primary_nav_wrap">
+<ul>
+  <li class="~{'current-menu-item' when String.Contains(TableUrl,'/administer') or String.Contains(SearchUrl,'/administer') or (Title = 'Welcome' or Title = 'Home')}~">
+                <a href="~{Url.AddRootPath('/home.html')}~">&nbsp;Home&nbsp;</a>
+
+  </li>
+        
+            
+             ]]>
+
+          </Html>
+    <Html Access="AuthenticatedUsers" When="{Settings.TabularMenu= 'Y' and List.ItemAt(MenuTabs,0)!=null}">
+      <Script>
+        TabIndex {'0'}
+      </Script>
+      <![CDATA[
+          <!--<li  class="~{CurrentMenuItem}~">
+          <a href="~{Url.AddRootPath(TabPath, '.html')}~" >&nbsp;~{String.ProperCase(String.FormatIdentifier(TabName))}~&nbsp;</a>
+            <ul>
+              <li class="~{CurrentMenuItem}~" style="~{SubMenuDisplay0}~">
+                <a href="~{SubMenuPath0}~" style="~{SubMenuActive0}~">&nbsp;~{SubMenuTitle0}~&nbsp;</a>
+              </li>
+              <li class="~{CurrentMenuItem}~" style="~{SubMenuDisplay1}~">
+                <a href="~{SubMenuPath1}~" style="~{SubMenuActive1}~">&nbsp;~{SubMenuTitle1}~&nbsp;</a>
+              </li>
+              <li class="~{CurrentMenuItem}~" style="~{SubMenuDisplay2}~">
+                <a href="~{SubMenuPath2}~" style="~{SubMenuActive2}~">&nbsp;~{SubMenuTitle2}~&nbsp;</a>
+              </li>
+              <li class="~{CurrentMenuItem}~" style="~{SubMenuDisplay3}~">
+                <a href="~{SubMenuPath3}~" style="~{SubMenuActive3}~">&nbsp;~{SubMenuTitle3}~&nbsp;</a>
+              </li>
+              <li class="~{CurrentMenuItem}~" style="~{SubMenuDisplay4}~">
+                <a href="~{SubMenuPath4}~" style="~{SubMenuActive4}~">&nbsp;~{SubMenuTitle4}~&nbsp;</a>
+              </li>
+				    </ul>
+				 </li>-->
+         ~{ListScript}~
+		          
+		
+              ]]>
+
+          </Html>
+    <Html Access="AuthenticatedUsers" When="{Settings.TabularMenu= 'Y' and List.ItemAt(MenuTabs,1)!=null}">
+      <Script>
+        TabIndex {'1'}
+      </Script>
+	    <![CDATA[~{ListScript}~]]>
+    </Html>
+    <Html Access="AuthenticatedUsers" When="{Settings.TabularMenu= 'Y' and List.ItemAt(MenuTabs,2)!=null}">
+      <Script>
+        TabIndex {'2'}
+      </Script>
+      <![CDATA[~{ListScript}~]]>
+    </Html>
+    <!--<Html Access="AuthenticatedUsers" When="{Settings.TabularMenu= 'Y' and List.ItemAt(MenuTabs,3)!=null}">
+      <Script>
+        TabIndex {'3'}
+      </Script>
+      <![CDATA[~{ListScript}~]]>
+    </Html>
+    <Html Access="AuthenticatedUsers" When="{Settings.TabularMenu= 'Y' and List.ItemAt(MenuTabs,4)!=null}">
+      <Script>
+        TabIndex {'4'}
+      </Script>
+      <![CDATA[~{ListScript}~]]>
+    </Html>
+    <Html Access="AuthenticatedUsers" When="{Settings.TabularMenu= 'Y' and List.ItemAt(MenuTabs,5)!=null}">
+      <Script>
+        TabIndex {'5'}
+      </Script>
+      <![CDATA[~{ListScript}~]]>
+    </Html>
+    <Html Access="AuthenticatedUsers" When="{Settings.TabularMenu= 'Y' and List.ItemAt(MenuTabs,6)!=null}">
+      <Script>
+        TabIndex {'6'}
+      </Script>
+      <![CDATA[~{ListScript}~]]>
+    </Html>
+    <Html Access="AuthenticatedUsers" When="{Settings.TabularMenu= 'Y' and List.ItemAt(MenuTabs,7)!=null}">
+      <Script>
+        TabIndex {'7'}
+      </Script>
+      <![CDATA[~{ListScript}~]]>
+    </Html>
+    <Html Access="AuthenticatedUsers" When="{Settings.TabularMenu= 'Y' and List.ItemAt(MenuTabs,8)!=null}">
+      <Script>
+        TabIndex {'8'}
+      </Script>
+      <![CDATA[~{ListScript}~]]>
+    </Html>
+    <Html Access="AuthenticatedUsers" When="{Settings.TabularMenu= 'Y' and List.ItemAt(MenuTabs,9)!=null}">
+      <Script>
+        TabIndex {'9'}
+      </Script>
+      <![CDATA[~{ListScript}~]]>
+    </Html>-->
+
+    <Html>
+      <![CDATA[    
+         
+          <!--</tr>
+          </table>
+         </td>-->
+          </ul>
+         <td style="background-color:#fff;width:10%">
+          <a  href="http://www.simplersystems.com/home.html" target="_blank" Settings.Tab-index="-1" style="position:relative;"><img src="~{Url.AddRootPath({'/images/simplersystems.gif'})}~" z-index="99" height="50" width="176" ></a>
+         </td>
+       </tr>
+    </table>
+  </div>
+  
+    ]]>
+
+    </Html>
+    <!--<Html Access="AuthenticatedUsers">
+      <Script>
+       Dt {Select.AggregateValue('simpler','Simpler','TaskInstances','MAX','EndedAt')}
+       SyncDate {Date.Date(Dt),' ',Date.Time(Dt)}
+      </Script>
+ 
+
+      <![CDATA[
+     <div class="anchor-custom" style="white-space: nowrap">
+        <span style="font-size:10pt;"><b>Data as of ~{SyncDate}~</b></span>
+     
+     </div>
+</div>  
+    ]]>
+    </Html>-->
+  
+  </Present>
+</Template>

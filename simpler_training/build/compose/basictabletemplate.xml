@@ -1,0 +1,127 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Template Access="NT Authority\Interactive,(localhost)" Description="Build Basic Table Compose Template" xmlns="http://simplersystems.com/suite" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://simplersystems.com/suite ..\..\Template.xsd">
+  <Xml>
+    <Script>
+      ColumnNames {Select.GetSchemaColumnNames(SelectUrl)}
+      Type {Select.GetSchemaColumnAttribute(SelectUrl, ColumnName, 'Type')}
+      Title {Select.GetSchemaColumnAttribute(SelectUrl, ColumnName, 'Title', String.FormatIdentifier(ColumnName))}
+      Description {Select.GetSchemaColumnAttribute(SelectUrl, ColumnName, 'Description')}
+      TitleAlignment {Select.GetSchemaColumnAttribute(SelectUrl, ColumnName, 'TitleAlignment', {'Center' when Type = 'Number' or Type = 'Date'})}
+      Alignment {Select.GetSchemaColumnAttribute(SelectUrl, ColumnName, 'Alignment', {'Right' when Type = 'Number', 'Center' when Type = 'Date'})}
+      Width {Select.GetSchemaColumnAttribute(SelectUrl, ColumnName, 'Width', {'10' when Type = 'Number', '8' when Type = 'Date'})}
+      Format {Select.GetSchemaColumnAttribute(SelectUrl, ColumnName, 'Format')}
+      ExcelFormat {Select.GetSchemaColumnAttribute(SelectUrl, ColumnName, 'ExcelFormat')}
+      NumberFormat {Select.GetSchemaColumnAttribute(SelectUrl, ColumnName, 'NumberFormat')}
+      DecimalPlaces {Select.GetSchemaColumnAttribute(SelectUrl, ColumnName, 'DecimalPlaces')}
+      SortDescending {Select.GetSchemaColumnAttribute(SelectUrl, ColumnName, 'SortDescending', {'Y' when Type = 'Number'})}
+      Display {Select.GetSchemaColumnAttribute(SelectUrl, ColumnName, 'Display')}
+      Fixed {Select.GetSchemaColumnAttribute(SelectUrl, ColumnName, 'Fixed')}
+      Chart {Select.GetSchemaColumnAttribute(SelectUrl, ColumnName, 'Chart')}
+      LinkNames {Select.GetSchemaLinkNames(SelectUrl)}
+      LinkText {Select.GetSchemaLinkAttribute(SelectUrl, LinkName, 'Text', LinkName)}
+      LinkTitle {Select.GetSchemaLinkAttribute(SelectUrl, LinkName, 'Title')}
+      LinkWidth {Select.GetSchemaLinkAttribute(SelectUrl, LinkName, 'Width')}
+      LinkUrl {Select.GetSchemaLinkAttribute(SelectUrl, LinkName, 'Url', {'{&quot;', LinkName, '&quot;}'})}
+      LinkTarget {Select.GetSchemaLinkAttribute(SelectUrl, LinkName, 'Target')}
+      LinkTitleUrl {Select.GetSchemaLinkAttribute(SelectUrl, LinkName, 'TitleUrl')}
+    </Script>
+    <Element Name="Template">
+      <Attribute Name="Access" Value="{Select.GetSchemaAttribute(SelectUrl, 'Access')}" />
+      <Attribute Name="Description" />
+      <Attribute Name="xmlns" Value="http://simplersystems.com/suite" />
+      <Attribute Name="xmlns:xsi" Value="http://www.w3.org/2001/XMLSchema-instance" />
+      <Attribute Name="xsi:schemaLocation" Value="http://simplersystems.com/suite Template.xsd" />
+      <Element Name="Compose">
+        <Element Name="Frame">
+          <Attribute Name="Title" Value="{Select.GetSchemaAttribute(SelectUrl, 'Title')}" />
+          <Attribute Name="SearchUrl" Value="{'{Url.ChangeName(Url.This, ''search.html'')}'}" />
+          <Attribute Name="DiscussUrl" Value="{Select.GetSchemaAttribute(SelectUrl, 'DiscussUrl')}" />
+          <Attribute Name="TableUrl" Value="{'{Url.ChangeExtension(Url.This, ''.html'')}'}" />
+          <Attribute Name="ChartUrl" Value="{'{Url.ChangeExtension(Url.This, ''.chart'')}'}" />
+        </Element>
+        <Element Name="Table">
+          <Attribute Name="Title" Value="{Select.GetSchemaAttribute(SelectUrl, 'Title')}" />
+          <Attribute Name="ChartTitle" Value="{Select.GetSchemaAttribute(SelectUrl, 'ChartTitle')}" />
+          <Attribute Name="AutoDisplay" Value="Y" />
+          <Attribute Name="AutoColumnWidth" Value="Y" />
+          <Attribute Name="AutoSort" Value="Y" />
+          <Attribute Name="AutoSelect" Value="Y" />
+          <Element Name="Script.Url">
+            <Attribute Name="Identifier" Value="SelectUrl" />
+            <Attribute Name="BaseUrl" Value="{'{Url.Path}'}" />
+            <Attribute Name="Name" Value="select.xml" />
+            <Elements ItemIdentifier="ColumnName" Items="{ColumnNames}">
+              <Element Name="Parameter">
+                <Attribute Name="Name" Value="{ColumnName}" />
+              </Element>
+            </Elements>
+            <Element Name="Parameter">
+              <Attribute Name="Name" Value="Sort" />
+            </Element>
+            <Element Name="Parameter">
+              <Attribute Name="Name" Value="SortDescending" />
+            </Element>
+            <Element Name="Parameter">
+              <Attribute Name="Name" Value="SampleOnly" />
+            </Element>
+            <Element Name="Parameter">
+              <Attribute Name="Name" Value="SampleSize" />
+            </Element>
+          </Element>
+          
+          <Element Name="DataSet">
+            <Attribute Name="id" Value="Data" />
+            <Attribute Name="Url" Value="{'{SelectUrl}'}" />
+          </Element>
+
+          <Elements ItemIdentifier="ColumnName" Items="{ColumnNames}">
+            <Element Name="Column">
+              <Attribute Name="Name" Value="{ColumnName}" />
+              <Attribute Name="Alignment" Value="{Alignment}" When="{Alignment != null}" />
+              <Attribute Name="Width" Value="{Width}" When="{Width != null}" />
+              <Attribute Name="Format" Value="{Format}" When="{Format != null}" />
+              <Attribute Name="ExcelFormat" Value="{ExcelFormat}" When="{ExcelFormat != null}" />
+              <Attribute Name="NumberFormat" Value="{NumberFormat}" When="{NumberFormat != null}" />
+              <Attribute Name="DecimalPlaces" Value="{DecimalPlaces}" When="{DecimalPlaces != null}" />
+              <Attribute Name="Display" Value="{Display}" When="{Display != null}" />
+              <Attribute Name="Fixed" Value="{Fixed}" When="{Fixed != null}" />
+              <Attribute Name="Chart" Value="{Chart}" When="{Chart != null}" />
+              <Attribute Name="PredefinedLink" Value="Filter" />
+              <Element Name="Title">
+                <Attribute Name="Text" Value="{Title}" />
+                <Attribute Name="Tooltip" Value="{Description}" When="{Description != null}" />
+                <Attribute Name="Alignment" Value="{TitleAlignment}" When="{TitleAlignment != null}" />
+                <Attribute Name="PredefinedLink" Value="Sort" />
+                <Attribute Name="PredefinedLinkParameters" Value="Descending" When="{SortDescending}" />
+              </Element>
+            </Element>
+          </Elements>
+
+          <Elements ItemIdentifier="LinkName" Items="{LinkNames}">
+            <Element Name="Link">
+              <Attribute Name="Text" Value="{LinkText}" />
+              <Attribute Name="TitleText" Value="{LinkTitle}" When="{LinkTitle != null}" />
+              <Attribute Name="Url" Value="{LinkUrl}" When="{LinkUrl != null}" />
+              <Attribute Name="Target" Value="{LinkTarget}" When="{LinkTarget != null}" />
+              <Attribute Name="TitleUrl" Value="{LinkTitleUrl}" When="{LinkTitleUrl != null}" />
+              <Attribute Name="Width" Value="{LinkWidth}" When="{LinkWidth != null}" />
+              <Attribute Name="When" Value="{'{Aggregate = null}'}" />
+            </Element>
+          </Elements>
+          
+          <Element Name="Criteria">
+            <Attribute Name="DefaultLocation" Value="Header" />
+            <Attribute Name="SearchEnabled" Value="Y" />
+            <Elements ItemIdentifier="ColumnName" Items="{ColumnNames}">
+              <Element Name="Parameter">
+                <Attribute Name="Name" Value="{ColumnName}" />
+                <Attribute Name="Label" Value="{Title}" />
+              </Element>
+            </Elements>
+          </Element>
+        </Element>
+      </Element>
+    </Element>
+  </Xml>
+</Template>
+  

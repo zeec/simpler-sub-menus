@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Template Access="NT Authority\Interactive,(localhost)" Description="Build Advanced Search Form Present Template" xmlns="http://simplersystems.com/suite" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://simplersystems.com/suite ..\..\Template.xsd">
+  <Present>
+    <Script.Url Identifier="SearchFormUrl" BaseUrl="/build/present/advancedsearchformtemplate.xml">
+      <Parameter Name="SelectUrl" />
+    </Script.Url>
+    <Frame Title="Build" />
+    <Form Title="Build Advanced Search Form Present Template">
+      <TextBox Identifier="SelectUrl" Label="Select Template Url:" />
+      <Button.Navigate Identifier="Build" Label="Build" Url="{SearchFormUrl}" />
+    </Form>
+  </Present>
+</Template>

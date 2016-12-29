@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Template Access="NT Authority\Interactive,(localhost)" Description="Build XLS File Select Template" xmlns="http://simplersystems.com/suite" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://simplersystems.com/suite ..\..\Template.xsd">
+  <Present>
+    <Script.Url Identifier="XlsFileUrl" BaseUrl="/build/select/xlsfiletemplate.xml">
+      <Parameter Name="Path" />
+      <Parameter Name="FileName" />
+    </Script.Url>
+    <Frame Title="Build" />
+    <Form Title="Build XLS File Select Template">
+      <TextBox Identifier="Path" Label="Path:" />
+      <TextBox Identifier="FileName" Label="File Name:" />
+      <Button.Navigate Identifier="Build" Label="Build" Url="{XlsFileUrl}" />
+    </Form>
+  </Present>
+</Template>

@@ -1,0 +1,139 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Template Access="NT Authority\Interactive,(localhost)" Description="Build Advanced Search Form Present Template" xmlns="http://simplersystems.com/suite" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://simplersystems.com/suite ..\..\Template.xsd">
+  <Xml>
+    <Script>
+      ColumnNames {Select.GetSchemaColumnNames(SelectUrl)}
+      Type {Select.GetSchemaColumnAttribute(SelectUrl, ColumnName, 'Type')}
+      Title {Select.GetSchemaColumnAttribute(SelectUrl, ColumnName, 'Title', String.FormatIdentifier(ColumnName))}
+      Description {Select.GetSchemaColumnAttribute(SelectUrl, ColumnName, 'Description')}
+      Display {Select.GetSchemaColumnAttribute(SelectUrl, ColumnName, 'Display')}
+      Group {Select.GetSchemaColumnAttribute(SelectUrl, ColumnName, 'Group', {'Y' when Type = 'String'})}
+      Assist {Select.GetSchemaColumnAttribute(SelectUrl, ColumnName, 'Assist')}
+      AssistUrl {Select.GetSchemaColumnAttribute(SelectUrl, ColumnName, 'AssistUrl', Url.Build(Url.ChangeExtension(SelectUrl, 'json'), {'Select', 'Group', 'RowLimit'}, ColumnName, 'Y', '100'))}
+      AssistParameters {Select.GetSchemaColumnAttribute(SelectUrl, ColumnName, 'AssistParameters')}
+    </Script>
+    <Element Name="Template">
+      <Attribute Name="Access" Value="{Select.GetSchemaAttribute(SelectUrl, 'Access')}" />
+      <Attribute Name="Description" />
+      <Attribute Name="xmlns" Value="http://simplersystems.com/suite" />
+      <Attribute Name="xmlns:xsi" Value="http://www.w3.org/2001/XMLSchema-instance" />
+      <Attribute Name="xsi:schemaLocation" Value="http://simplersystems.com/suite Template.xsd" />
+      <Element Name="Present">
+        <Element Name="Script.Url">
+          <Attribute Name="id" Value="ComposeUrl" />
+          <Attribute Name="Identifier" Value="ComposeUrl" />
+          <Attribute Name="BaseUrl" Value="{'{Url.Path}'}" />
+          <Attribute Name="Name" Value="compose.html" />
+          <Attribute Name="Extension" Value="{'{Coalesce(_Extension, ''.html'')}'}" />
+          <Element Name="Parameter">
+            <Attribute Name="Name" Value="Display" />
+          </Element>
+          <Element Name="Parameter">
+            <Attribute Name="Name" Value="Group" />
+          </Element>
+          <Element Name="Parameter">
+            <Attribute Name="Name" Value="Aggregate" />
+          </Element>
+          <Element Name="Parameter">
+            <Attribute Name="Name" Value="Compare" />
+          </Element>
+          <Elements ItemIdentifier="ColumnName" Items="{ColumnNames}">
+            <Element Name="Parameter">
+              <Attribute Name="Name" Value="{ColumnName}" />
+              <Attribute Name="Value" Value="{'{[CompareUrl] when Compare = ''', ColumnName, ''', else ', ColumnName, '}'}" When="{Type = 'String'}"/>
+            </Element>
+          </Elements>
+        </Element>
+        <Element Name="Script.Url">
+          <Attribute Name="Identifier" Value="CompareUrl" />
+          <Attribute Name="BaseUrl" Value="{'{Url.Path}'}" />
+          <Attribute Name="Name" Value="select.xml" />
+          <Element Name="Parameter">
+            <Attribute Name="Name" Value="Group" />
+            <Attribute Name="Value" Value="Y"/>
+          </Element>
+          <Element Name="Parameter">
+            <Attribute Name="Name" Value="Select"/>
+            <Attribute Name="Value" Value="{'{Compare}'}"/>
+          </Element>
+          <Elements ItemIdentifier="ColumnName" Items="{ColumnNames}">
+            <Element Name="Parameter">
+              <Attribute Name="Name" Value="{ColumnName}" />
+            </Element>
+          </Elements>
+        </Element>
+        <Element Name="Frame">
+          <Attribute Name="Extensions" Value="nul" />
+        </Element>
+        <Element Name="Form">
+          <Attribute Name="Title" Value="{Select.GetSchemaAttribute(SelectUrl, 'Title')}" />
+          <Attribute Name="NavigateUrl" Value="{'{ComposeUrl}'}" />
+          <Attribute Name="AutoInput" Value="Y" />
+          <Element Name="Context">
+            <Attribute Name="id" Value="_Extension" />
+            <Attribute Name="Identifier" Value="_Extension" />
+          </Element>
+          <Element Name="TextBox">
+            <Attribute Name="id" Value="Display" />
+            <Attribute Name="Identifier" Value="Display" />
+            <Attribute Name="Description" Value="Display" />
+          </Element>
+          <Element Name="Options.DropDownList">
+            <Attribute Name="id" Value="Group" />
+            <Attribute Name="Identifier" Value="Group" />
+            <Attribute Name="Description" Value="Group" />
+            <Attribute Name="Nullable" Value="Y" />
+            <Elements ItemIdentifier="ColumnName" Items="{ColumnNames}">
+              <Element Name="Option" When="{Group}">
+                <Attribute Name="Value" Value="{ColumnName}" />
+                <Attribute Name="Label" Value="{String.Replace(Title, '|', ' ')}" />
+              </Element>
+            </Elements>
+          </Element>
+          <Element Name="Options.DropDownList">
+            <Attribute Name="id" Value="Aggregate" />
+            <Attribute Name="Identifier" Value="Aggregate" />
+            <Attribute Name="Description" Value="Aggregate" />
+            <Attribute Name="Nullable" Value="Y" />
+            <Elements ItemIdentifier="ColumnName" Items="{ColumnNames}">
+              <Element Name="Option" When="{Group}">
+                <Attribute Name="Value" Value="{ColumnName}" />
+                <Attribute Name="Label" Value="{String.Replace(Title, '|', ' ')}" />
+              </Element>
+            </Elements>
+          </Element>
+          <Element Name="Options.DropDownList">
+            <Attribute Name="When" Value="{'{Aggregate !=null and Aggregate !=''Total''}'}"/>
+            <Attribute Name="id" Value="Compare" />
+            <Attribute Name="Identifier" Value="Compare" />
+            <Attribute Name="Description" Value="Compare" />
+            <Attribute Name="Nullable" Value="Y" />
+            <Attribute Name="NullLabel" Value="None"/>
+            <Elements ItemIdentifier="ColumnName" Items="{ColumnNames}">
+              <Element Name="Option"  When="{Type = 'String'}">
+                <Attribute Name="Value" Value="{ColumnName}"/>
+                <Attribute Name="Label" Value="{String.Replace(Title, '|', ' ')}" />
+              </Element>
+            </Elements>
+          </Element>
+        
+          <Element Name="Separator">
+            <Attribute Name="ToolbarOnly" Value="Y" />
+          </Element>
+          <Elements ItemIdentifier="ColumnName" Items="{ColumnNames}">
+            <Element Name="TextBox" When="{Display != 'N'}">
+              <Attribute Name="id" Value="{ColumnName}" />
+              <Attribute Name="Identifier" Value="{ColumnName}" />
+              <Attribute Name="Description" Value="{String.Replace(Title, '|', ' ')}" />
+              <Attribute Name="Tooltip" Value="{Description}" When="{Description != null}" />
+              <Attribute Name="Assist" Value="{Assist}" />
+              <Attribute Name="AssistUrl" Value="{AssistUrl}" />
+              <Attribute Name="AssistParameters" Value="{AssistParameters}" />
+            </Element>
+          </Elements>
+        </Element>
+      </Element>
+    </Element>
+  </Xml>
+</Template>
+  

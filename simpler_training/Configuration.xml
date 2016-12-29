@@ -1,0 +1,93 @@
+<Configuration xmlns="http://simplersystems.com/suite/configuration" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://simplersystems.com/suite Configuration.xsd">
+
+	<DataSources>
+		<!--Update DataSource for new client-->
+		<DataSource Name="Test" Type="SQLServer" ConnectionString="Server=x" TransactionIsolationLevel="Serializable" />
+	</DataSources>
+	
+	
+  <Settings>    
+	  <!--General Settings-->
+	  <Setting Name="ClientName" Value="Demo"/>
+	  <Setting Name="ApplicationTitle" Value="simpler/gov"/>
+	  <Setting Name="MonitorApplicationID" Value="SIMStandard"/>
+	  <Setting Name="FiscalYearBeginMonth" Value="7"/>
+	  <Setting Name="FrameHomeLinkEnabled" Value="N"/>
+	  <Setting Name="FrameTitleLinkEnabled" Value="Y"/>
+	  <Setting Name="BinariesPath" Value="D:\Web\test.simplersystems.net\_StandardSite\bin"/>
+
+	  <Setting Name="XlsxEnabled" Value="Y"/>
+
+	  <!--Login and Password Settings-->
+	  <Setting Name="AuthenticationType" Value="localhost"/>
+	  <Setting Name="LogoutPage" Value="/login.html"/>
+	  <Setting Name="PasswordExpirationDays" Value="1000" />
+	  <Setting Name="TemporaryPasswordExpirationDays" Value="1000" />
+	  <Setting Name="PasswordResetOption" Value="/administer/passwords/security.xml?RedirectUrl=/login.html"/>
+	  
+	  <!--Access-->
+	  <Setting Name="AccessGroups" Value="Administrators,GeneralUser"/>
+	  <Setting Name="AccessGroupDescriptions" Value="Administrator, General User"/>
+	  <Setting Name="StartPageUsers" Value="zcruz"/>
+
+
+	  <!--Host, Log, and Data Settings-->
+	  <Setting Name="Host" Value="test.simplersystems.net"/>
+	  <Setting Name="LogEnabled" Value="Y"/>
+	  <Setting Name="LogAccessAttributes" Value="AllUsers"/>
+	  <Setting Name="PerformanceLogEnabled" Value="N" />
+	  <Setting Name="PerformanceLogDataSource" Value="simpler"/>
+	  <Setting Name="DataGovernorMaximumCellCount" Value="1000000000"/>
+	  <Setting Name="DataPath" Value="D:\Data\CACompensation"/>
+	  <!--<Setting Name="LookupPath" Value="D:\Data\ClientFolder\lookup"/>
+	 
+	  <Setting Name="TemplatePath" Value="D:\web\test.simplersystems.net\_StandardSite" />-->
+	  
+	  <!--Notify Settings (make addresses comma delimited list instead of multiple settings?)-->
+	  <Setting Name="NotifyFromAddress" Value="support@simplersystems.com" />
+	  <Setting Name="NotifyServerHostName" Value="simplersystems-com.mail.protection.outlook.com" />
+
+	  <!--Basic Frame Settings-->
+	  <Setting Name="FrameHelpUrl" Value="/info.html" />
+	  <Setting Name="FrameSetupUrl" Value="/setup.html" />
+	  <Setting Name="FrameShortcutUrl" Value="/administer/shortcuts/create.html" />
+	  <Setting Name="FeedbackUrl" Value="/administer/feedback/form.html" />
+	  <Setting Name="FeedbackEnabled" Value="Y"/>
+
+	  <!--Custom Frame Settings-->
+	  <Setting Name="FrameStyle" Value="Custom" />
+	  <Setting Name="FrameColor" Value="#ffffff"/>
+	  <Setting Name="HeadingColor" Value="#000"/>
+	  <Setting Name="LogoUrl" Value="/administer/resource/image/ss_box.jpg"/>
+	  <Setting Name="LogoWidth" Value="50"/>
+	  <Setting Name="LogoHeight" Value="50"/>
+	  <Setting Name="TabularMenu" Value="Y"/>
+ 
+	  <!--Search/Compose Configuration Settings-->
+	  <Setting Name="PrimaryFilters" Value="Year,EntityType,EntityName,Position,DepartmentSubdivision,EntityCounty"/>
+	  <Setting Name="YesNoFilters" Value="ElectedOfficial,Judicial"/>
+
+	  <Setting Name="NumInHousehold" Value="N"/>
+	  <Setting Name="HabitProject" Value="N"/>
+  </Settings>
+
+	<Scripts>
+		<Script Name="UserFilterNames" Value="{'FundType','GLKey','Div','Department'}"/>
+		<Script Name="UserFilterTitles" Value="{'Fund Type','General Ledger Key','Division','Department'}"/>
+		<!--<Script Name="DiscussUrl" Value="{Url.Build('http://www.simplersystems.net/feedback/administer/feedback/form.html?',{'Email', 'RequestedBy'}, User.Email, User.FullName)}"/>-->
+		<Script Name="DiscussUrl" Value="{'/feedbackrelay.xml'}"/>
+
+	</Scripts>
+
+	<HttpHandlers>
+		<HttpHandler ID="Manual" Url="/administer/resource/manual.pdf" ResponseType="Simpler.System.Pdf,Simpler.System" Access="AuthenticatedUsers" Description="Manual" />
+		<HttpHandler ID="QuickStart" Url="/administer/resource/QuickStart.pdf" ResponseType="Simpler.System.Pdf,Simpler.System" Access="AuthenticatedUsers" Description="Quick Start Guide" />
+	</HttpHandlers>
+
+
+	<UserExceptionHandlers Url="/error.html">
+		<UserExceptionHandler Type="Unauthorized" Url="/login.html" />
+		<UserExceptionHandler Type="LoginFailed" Url="/error.html" />
+	</UserExceptionHandlers>
+
+</Configuration>

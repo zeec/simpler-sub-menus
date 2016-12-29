@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Template Access="NT Authority\Interactive,(localhost)" Description="Build XLS File Template" xmlns="http://simplersystems.com/suite" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://simplersystems.com/suite ..\..\Template.xsd">
+  <Xml>
+    <Check Identifier="Path" Required="Y" />
+    <Check Identifier="FileName" Required="Y" />
+    <Element Name="Template">
+      <Attribute Name="Access" Value="" />
+      <Attribute Name="Description" Value="XLS File Template" />
+      <Attribute Name="xmlns" Value="http://simplersystems.com/suite" />
+      <Element Name="Select">
+        <Element Name="Query">
+          <Element Name="XlsFile">
+            <Attribute Name="Path" Value="{Path}" />
+            <Attribute Name="FileName" Value="{FileName}" />
+            <Attribute Name="FirstRowContainsFieldNames" Value="Y" />
+          </Element>
+        </Element>
+      </Element>
+    </Element>
+  </Xml>
+</Template>
+  
